@@ -7,6 +7,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_items(macaddr: str):
-    ret = subprocess.run('sudo', 'etherwake', '-i', 'wlan0', macaddr)
-    send_magic_packet(macaddr,interface='wlan0')
-    return {'send magic packet to ': ret}
+    command = 'sudo etherwake -i wlan0 ' + macaddr
+    ret = subprocess.run(command, shell=True)
+    send_magic_packet(macaddr, interface='wlan0')
+    return {'send magic packet to ': macaddr}
